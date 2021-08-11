@@ -1,4 +1,5 @@
 defmodule Raindrops do
+  @list [3, 5, 7]
   @doc """
   Returns a string based on raindrop factors.
 
@@ -12,17 +13,24 @@ defmodule Raindrops do
   def convert(number) do
     cond do
       not_contain_prime_factor?(number) -> Integer.to_string(number)
-      modulo(number, 3) -> "Pling"
-      modulo(number, 5) -> "Plang"
-      modulo(number, 7) -> "Plong"
+      true -> Enum.map(@list, &(process(number, &1))) |> Enum.join
     end
   end
 
-  defp modulo(number, prime_factor) do
-    rem(number, prime_factor) === 0
+  defp process(number, n) do
+    cond do
+      is_valid?(number, 3) && n == 3 -> "Pling"
+      is_valid?(number, 5) && n == 5 -> "Plang"
+      is_valid?(number, 7) && n == 7 -> "Plong"
+      true -> ""
+    end
+  end
+
+  defp is_valid?(number, prime_factor) do
+    rem(number, prime_factor) == 0
   end
 
   defp not_contain_prime_factor?(number) do
-    !(modulo(number, 3) && modulo(number, 5) && modulo(number, 7))
+    Enum.all?(@list, &(!is_valid?(number, &1)))
   end
 end
