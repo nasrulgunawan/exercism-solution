@@ -15,7 +15,7 @@ defmodule BeerSong do
   """
   @spec lyrics(Range.t()) :: String.t()
   def lyrics(range \\ 99..0) do
-    Enum.map_join(range, &(verse(&1)))
+    range |> Enum.map_join("\n", &verse/1)
   end
 
   defp bottle(n) do
@@ -34,8 +34,8 @@ defmodule BeerSong do
 
   defp second_line(n) do
     case n do
-      0 -> "Go to the store and buy some more, #{bottle(n)}"
-      1 -> "Take it down and pass it around, #{bottle(n)}"
+      0 -> "Go to the store and buy some more, #{bottle(99)}"
+      1 -> "Take it down and pass it around, #{bottle(0)}"
       _ -> "Take one down and pass it around, #{bottle(n-1)}"
     end
   end
