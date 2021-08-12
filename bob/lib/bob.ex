@@ -1,28 +1,39 @@
 defmodule Bob do
   def hey(sentence) do
     cond do
-      question?(sentence) -> "Sure."
       silence?(sentence) -> "Fine. Be that way!"
-      yell?(sentence) -> "Whoa, chill out!"
+      yelling_question?(sentence) -> "Calm down, I know what I'm doing!"
+      question?(sentence) -> "Sure."
+      yelling?(sentence) -> "Whoa, chill out!"
       true -> "Whatever."
     end
   end
 
   defp normalize(sentence) do
-    sentence
-      |> String.replace(~r/,\s[^[:alpha:][:blank:]['?']]/u, "")
-      |> String.trim
+    sentence |> String.trim
   end
 
   defp question?(sentence) do
-    String.last(normalize(sentence)) == "?"
+    normalize(sentence) |> String.ends_with?("?")
   end
 
-  defp yell?(sentence) do
-    String.upcase(normalize(sentence)) === normalize(sentence)
+  defp yelling?(sentence) do
+    has_letters?(sentence) && all_caps?(sentence)
   end
 
   defp silence?(sentence) do
     normalize(sentence) == ""
+  end
+
+  defp yelling_question?(sentence) do
+    yelling?(sentence) && question?(sentence)
+  end
+
+  defp has_letters?(sentence) do
+    String.upcase(sentence) != String.downcase(sentence)
+  end
+
+  defp all_caps?(sentence) do
+    sentence == String.upcase(sentence)
   end
 end
