@@ -15,7 +15,7 @@ class ListOps
     end
 
     def reverser(arr)
-      map([], arr) { |acc, x| acc.unshift(x) }
+      map(arr) { |acc, x| acc.unshift(x) }
     end
 
     def concatter(first, second)
@@ -23,11 +23,11 @@ class ListOps
     end
 
     def mapper(arr, &block)
-      map([], arr) { |acc, x| acc << block[x] }
+      map(arr) { |acc, x| acc << block[x] }
     end
 
     def filterer(arr, &block)
-      map([], arr) { |acc, x| block[x] ? acc << x : acc }
+      map(arr) { |acc, x| block[x] ? acc << x : acc }
     end
 
     def sum_reducer(arr)
@@ -40,7 +40,7 @@ class ListOps
 
     private
 
-    def map(acc, arr, &block)
+    def map(acc = [], arr, &block)
       arr.each do |x|
         acc = yield(acc, x)
       end
